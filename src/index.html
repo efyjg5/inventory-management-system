@@ -210,36 +210,8 @@
 				$('#add_data').find('input[id="total_price"]').val('RM '+total.toFixed(2));
 			});
 			
-			var buttonShow = document.getElementsByTagName('button');
-			for(var i=0; i<buttonShow.length; i++){
-				if(buttonShow[i].innerHTML == '<span>ADD NEW ITEM</span>'){
-					 buttonShow[i].classList.add("add_button");
-					 buttonShow[i].hidden = true;
-				} else if (buttonShow[i].innerHTML == '<span>SAVE DATA</span>'){
-					 buttonShow[i].classList.add("data_button");
-					 buttonShow[i].hidden = true;
-				} else if (buttonShow[i].innerHTML == '<span>LOAD DATA</span>'){
-					 buttonShow[i].classList.add("data_button");
-					 buttonShow[i].setAttribute("onclick", "document.getElementById('upload_data').click();");
-				} else if (buttonShow[i].innerHTML == '<span>NEW DATA</span>'){
-					 buttonShow[i].classList.add("add_button");
-				}
-			}
-			
-			function readSingleFile(e) {
-			  var file = e.target.files[0];
-			  if (!file) {
-				return;
-			  }
-			  var reader = new FileReader();
-			  reader.onload = function(e) {
-				var contents = e.target.result;
-				displayContents(contents);
-			  };
-			  reader.readAsText(file);
-			}
-
-			function displayContents(contents) {
+			function displayContents() {
+				contents = '{"header":["Item Name","Quantity","Type","Unit Price","Total Price","",""],"footer":null,"body":[["Blazer (Female)","20","Outerwear","RM 129.00","RM 2580.00","",""],["Bomber Jacket","70","Outerwear","RM 269.00","RM 18830.00","",""],["Briefs (Male)","3000","Underwear","RM 45.99","RM 137970.00","",""],["Checkered Flannel","12","Outerwear","RM 140.00","RM 1680.00","",""],["Denim Jeans","31","Pants","RM 129.00","RM 3999.00","",""],["Hoodie","75","Outerwear","RM 60.50","RM 4537.50","",""],["Jujutsu Kaisen Tee Shirt","67","Shirt","RM 80.00","RM 5360.00","",""],["Long Sleeve Shirt","45","Shirt","RM 79.00","RM 3555.00","",""],["Nike Air Force One","6","Shoes","RM 499.00","RM 2994.00","",""],["Polo Shirt","27","Shirt","RM 50.00","RM 1350.00","",""],["Slacks","57","Pants","RM 89.00","RM 5073.00","",""],["Winnie the Pooh Socks","450","Socks","RM 15.10","RM 6795.00","",""]]}';
 			  dataSrc = JSON.parse(contents.split('"body":')[1].split('}')[0]);
 			  $('#myTable').dataTable().fnClearTable();
 			  $('#myTable').dataTable().fnAddData(dataSrc);
@@ -257,9 +229,25 @@
 			  $('#empty_animation').attr("hidden",true);
 			  document.getElementById('upload_data').value = "";
 			}
+			
+			var buttonShow = document.getElementsByTagName('button');
+			for(var i=0; i<buttonShow.length; i++){
+				if(buttonShow[i].innerHTML == '<span>ADD NEW ITEM</span>'){
+					 buttonShow[i].classList.add("add_button");
+					 buttonShow[i].hidden = true;
+				} else if (buttonShow[i].innerHTML == '<span>SAVE DATA</span>'){
+					 buttonShow[i].classList.add("data_button");
+					 buttonShow[i].hidden = true;
+				} else if (buttonShow[i].innerHTML == '<span>LOAD DATA</span>'){
+					 buttonShow[i].classList.add("data_button");
+					 buttonShow[i].setAttribute("id", "database_button");
+				} else if (buttonShow[i].innerHTML == '<span>NEW DATA</span>'){
+					 buttonShow[i].classList.add("add_button");
+				}
+			}
 
-			document.getElementById('upload_data')
-			  .addEventListener('change', readSingleFile, false);
+			document.getElementById('database_button')
+			  .addEventListener('click', displayContents, false);
 			  
 			function getSubstring(string, char1, char2) {
 			  return string.slice(
